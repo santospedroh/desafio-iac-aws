@@ -21,7 +21,7 @@ Na saída do provisionamento (Output) deve obter as seguintes informações:
 * IP público das instâncias
 * DNS público das instâncias
 
-![Desafio 02 ](img/desafio-02.png?raw=true "Desafio 02")
+![Desafio 02 ](../img/desafio-02.png?raw=true "Desafio 02")
 
 * 1 VPC
 * 1 Internet Gateway

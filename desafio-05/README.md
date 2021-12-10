@@ -19,7 +19,7 @@ As 3 instâncias da aplicação devem conter as seguintes características:
 
 A arquitetura VPC deve ficar de seguinte forma:
 
-![Desafio 05 ](img/desafio-05.png?raw=true "Desafio 05")
+![Desafio 05 ](../img/desafio-05.png?raw=true "Desafio 05")
 
 * 1 VPC
 * 1 Internet Gateway

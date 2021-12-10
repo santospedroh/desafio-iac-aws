@@ -21,7 +21,7 @@ Na saída do provisionamento (Output) deve obter as seguintes informações:
 
 A arquitetura VPC deve ficar de seguinte forma:
 
-![Desafio 01 ](img/desafio-01.png?raw=true "Desafio 01")
+![Desafio 01 ](../img/desafio-01.png?raw=true "Desafio 01")
 
 * 1 VPC
 * 1 Internet Gateway

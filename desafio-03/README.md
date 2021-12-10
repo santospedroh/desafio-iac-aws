@@ -19,7 +19,7 @@ Na saída do provisionamento (Output) deve obter as seguintes informações:
 
 * DNS público do Load Balancer
 
-![Desafio 03 ](img/desafio-03.png?raw=true "Desafio 03")
+![Desafio 03 ](../img/desafio-03.png?raw=true "Desafio 03")
 
 * 1 VPC
 * 1 Internet Gateway
