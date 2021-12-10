@@ -2,67 +2,78 @@
 
 Exercício da disciplina IaC Terraform do curso DevOps Engineering and Cloud Solutions da Mackenzie.
 
-## Desafio 👨🏽‍💻
+* Você pode subir tudo em uma única estrutura; (vários .tf)
+* Você pode utilizar módulos para organizar a estrutura;
+* Você pode utilizar tudo hardcoded ou com variáveis; 
 
-Provisionamento de uma instância EC2 de forma automatizada via [Terraform](https://www.terraform.io/)
+[Documentação Terraform Providers e Modules](https://registry.terraform.io/)
 
-A instância deve conter as seguintes características:
+[Desafios](img/desafios.pdf)
 
-* Shape: t3.medium
-* Name: Ec2-iac
-* Security Group: Porta 80, 433 e 22 liberadas utilizando dynamic blocks
-* Tags: Deve conter tags locais, sendo elas:
-    - Ambiente : Dev
-    - Time : Mackenzie
-    - Aplicacao : Frontend
-    - BU : Conta Digital
+## Desafio 1 👨🏽‍💻
 
-Na saída do provisionamento (Output) deve obter as seguintes informações:
-
-* ARN da instância
-* IP público da instância
-* DNS público da instância
-
-A arquitetura VPC deve ficar de seguinte forma:
-
-![Arquitetura VPC ](img/arquitetura_vpc.png?raw=true "VPC")
+[Detalhes do desafio 1](desafio-01/README.md)
 
 * 1 VPC
 * 1 Internet Gateway
 * 1 Subnet pública
 * 1 RouteTable (Pública, apontando para o Internet Gateway)
-* 1 EC2 na subnet pública
+* 1 instância EC2 na subnet pública
 
-## Desafio Plus Application 🚀
+## Desafio 2 📝
 
-Provisionamento de toda infraestrutura para executar uma aplicação em nodejs com alta disponibilidade de forma automatizada via [Terraform](https://www.terraform.io/)
-
-A aplicação deve 1 load balancer distribuindo as requisições para 3 instâncias e o banco de dados onde a aplicação será conectanda deve ser um RDS MySQL.
-
-A aplicação que será utilizada é a [Ecoleta](https://github.com/santospedroh/nlw-ecoleta) onde temos a imagem docker no [DockerHub](https://hub.docker.com/repository/docker/santospedroh/ecoleta)
-
-As 3 instâncias da aplicação devem conter as seguintes características:
-
-* Shape: t2.micro
-* Name: ECOLETA-APP-#Numero 
-* Security Group: Porta 80, 433 e 22 liberadas utilizando dynamic blocks
-* Tags: Deve conter tags locais, sendo elas:
-    - Ambiente : Prod
-    - Time : Engenharia
-    - Aplicacao : Backend
-    - BU : Sustentabilidade
-
-A arquitetura VPC deve ficar de seguinte forma:
-
-![Desafio Plus VPC ](img/aws_ecoleta.drawio.png?raw=true "Plus VPC")
+[Detalhes do desafio 2](desafio-02/README.md)
 
 * 1 VPC
 * 1 Internet Gateway
-* 1 Subnet pública
+* 2 Subnet pública
 * 1 RouteTable (Pública, apontando para o Internet Gateway)
-* 1 Subnet privada
-* 1 RDS MySQL na subnet privada
-* 3 EC2 na subnet pública
+* 2 Instâncias EC2 (Uma em cada subnet)
+
+## Desafio 3 🐍
+
+[Detalhes do desafio 3](desafio-03/README.md)
+
+* 1 VPC
+* 1 Internet Gateway
+* 2 NatGateway
+* 4 Subnets (2 Públicas e 2 Privadas)
+* 3 RouteTable
+    - 1 RouteTable Pública (Apontando para o InternetGateway)
+    - 2 RouteTable Privadas (Cada uma apontando para um NatGateway)
+* 2 Instâncias EC2 (Nas subnets privadas, Security Group com porta 80 liberada)
+* Elastic Load Balancer ou Application Load Balancer (Nas subnets públicas, Security group com porta 80 liberada)
+
+## Desafio 4 🐦
+
+[Detalhes do desafio 4](desafio-04/README.md)
+
+* 1 VPC
+* 1 Internet Gateway
+* 2 NatGateway
+* 4 Subnets (2 Públicas e 2 Privadas)
+* 3 RouteTable
+    - 1 RouteTable Pública (Apontando para o InternetGateway)
+    - 2 RouteTable Privadas (Cada uma apontando para um NatGateway)
+* 1 AutoScaling (Nas subnets privadas)
+* 2 Instâncias EC2 (Nas subnets privadas, Security Group com porta 80 liberada)
+* Elastic Load Balancer ou Application Load Balancer (Nas subnets públicas, Security group com porta 80 liberada)
+
+## Desafio 5 🚀
+
+[Detalhes do desafio 5](desafio-05/README.md)
+
+* 1 VPC
+* 1 Internet Gateway
+* 2 NatGateway
+* 4 Subnets (2 Públicas e 2 Privadas)
+* 3 RouteTable
+    - 1 RouteTable Pública (Apontando para o InternetGateway)
+    - 2 RouteTable Privadas (Cada uma apontando para um NatGateway)
+* 1 AutoScaling (Nas subnets privadas)
+* 2 Instâncias EC2 (Nas subnets privadas, Security Group com porta 80 liberada)
+* 1 RDS MySQL (Subnet privada, Security Group com porta 3306 liberada)
+* Elastic Load Balancer ou Application Load Balancer (Nas subnets públicas, Security group com porta 80 liberada)
 
 ---
 
