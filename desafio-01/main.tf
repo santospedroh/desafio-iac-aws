@@ -82,13 +82,15 @@ resource "aws_instance" "mackenzie_ec2" {
   subnet_id     = aws_subnet.mackenzie_subnet.id
   vpc_security_group_ids = [aws_security_group.mackenzie_sg.id]
   associate_public_ip_address = "true"
+  user_data     = file("./src/userdata.sh")
   tags = {
-    Name       = "ec2-iac",
-    Ambiente   = "dev",
-    Time       = "mackenzie"
-    Applicacao = "frontend"
-    BU         = "conta-digital"
+    Name       = "ec2-iac-site",
+    Ambiente   = "Development",
+    Time       = "Mackenzie"
+    Applicacao = "Site"
+    BU         = "Conta Digital"
   }
+  /*
   provisioner "file" {
     source      = "./src/groovin.zip"
     destination = "/tmp/groovin.zip"
@@ -109,6 +111,7 @@ resource "aws_instance" "mackenzie_ec2" {
     private_key = file("./src/labsuser.pem")
     host        = self.public_ip
   }
+  */
 }
 
 output "info_ec2_arn" {
