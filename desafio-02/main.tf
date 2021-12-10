@@ -15,12 +15,23 @@ resource "aws_internet_gateway" "app_gw" {
   }
 }
 
-# Create Subnet Public
-resource "aws_subnet" "app_subnet" {
+# Create Subnet Public AZ us-east-1a
+resource "aws_subnet" "app_subnet_1a" {
   vpc_id            = aws_vpc.app_vpc.id
-  cidr_block        = "10.100.0.0/24"
+  cidr_block        = "10.100.10.0/24"
+  availability_zone = "us-east-1a"
   tags = {
-    Name = "app-subnet-public"
+    Name = "app-subnet-public-1a"
+  }
+}
+
+# Create Subnet Public AZ us-east-1c
+resource "aws_subnet" "app_subnet_1c" {
+  vpc_id            = aws_vpc.app_vpc.id
+  cidr_block        = "10.100.30.0/24"
+  availability_zone = "us-east-1c"
+  tags = {
+    Name = "app-subnet-public-1c"
   }
 }
 
@@ -35,9 +46,16 @@ resource "aws_route_table" "app_rt" {
     Name = "app-rt-public"
   }
 }
-# Route table association with public subnets
+
+# Route table association with public subnet a
 resource "aws_route_table_association" "a" {
-  subnet_id      = aws_subnet.app_subnet.id
+  subnet_id      = aws_subnet.app_subnet_1a.id
+  route_table_id = aws_route_table.app_rt.id
+}
+
+# Route table association with public subnet a
+resource "aws_route_table_association" "c" {
+  subnet_id      = aws_subnet.app_subnet_1c.id
   route_table_id = aws_route_table.app_rt.id
 }
 
@@ -70,17 +88,16 @@ resource "aws_security_group" "app_sg" {
 }
 
 # Create Instance
-resource "aws_instance" "app_ec2" {
-  count = 2
+resource "aws_instance" "app_ec2_01" {
   ami           = var.ami
   instance_type = var.instance_type
   key_name      = "vockey"
-  subnet_id     = aws_subnet.app_subnet.id
+  subnet_id     = aws_subnet.app_subnet_1a.id
   vpc_security_group_ids = [aws_security_group.app_sg.id]
   associate_public_ip_address = "true"
   user_data     = file("./src/userdata.sh")
   tags = {
-    Name       = "${var.instance_name}-${count.index}"
+    Name       = "${var.instance_name}-01"
     Ambiente   = "Sandbox"
     Time       = "Mackenzie"
     Applicacao = "Post-it"
@@ -88,24 +105,41 @@ resource "aws_instance" "app_ec2" {
   }
 }
 
-# Print Instace post-it-app-0
-output "info_ec20_arn" {
-    value = aws_instance.app_ec2[0].arn
-}
-output "info_ec20_public_ip" {
-    value = aws_instance.app_ec2[0].public_ip
-}
-output "info_ec20_public_dns" {
-    value = aws_instance.app_ec2[0].public_dns 
+resource "aws_instance" "app_ec2_02" {
+  ami           = var.ami
+  instance_type = var.instance_type
+  key_name      = "vockey"
+  subnet_id     = aws_subnet.app_subnet_1c.id
+  vpc_security_group_ids = [aws_security_group.app_sg.id]
+  associate_public_ip_address = "true"
+  user_data     = file("./src/userdata.sh")
+  tags = {
+    Name       = "${var.instance_name}-02"
+    Ambiente   = "Sandbox"
+    Time       = "Mackenzie"
+    Applicacao = "Post-it"
+    BU         = "Python"
+  }
 }
 
-# Print Instace post-it-app-1
-output "info_ec21_arn" {
-    value = aws_instance.app_ec2[1].arn
+# Print Instace post-it-app-01
+output "info_app_ec2_01_arn" {
+    value = aws_instance.app_ec2_01.arn
 }
-output "info_ec21_public_ip" {
-    value = aws_instance.app_ec2[1].public_ip
+output "info_app_ec2_01_public_ip" {
+    value = aws_instance.app_ec2_01.public_ip
 }
-output "info_ec21_public_dns" {
-    value = aws_instance.app_ec2[1].public_dns 
+output "info_app_ec2_01_public_dns" {
+    value = aws_instance.app_ec2_01.public_dns 
+}
+
+# Print Instace post-it-app-02
+output "info_app_ec2_02_arn" {
+    value = aws_instance.app_ec2_02.arn
+}
+output "info_app_ec2_02_public_ip" {
+    value = aws_instance.app_ec2_02.public_ip
+}
+output "info_app_ec2_02_public_dns" {
+    value = aws_instance.app_ec2_02.public_dns 
 }
