@@ -7,7 +7,7 @@ sudo systemctl start nginx
 
 ## Install Site
 cd /tmp
-wget https://github.com/santospedroh/desafio-iac-aws/blob/main/desafio/src/groovin.zip
-sudo unzip /tmp/groovin.zip
-sudo mv /tmp/Groovin/* /usr/share/nginx/html/
+wget https://github.com/santospedroh/desafio-iac-aws/raw/main/desafio/src/groovin.zip
+sudo unzip groovin.zip
+sudo mv Groovin/* /usr/share/nginx/html/
 sudo systemctl restart nginx
