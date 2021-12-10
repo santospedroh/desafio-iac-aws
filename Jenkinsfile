@@ -6,7 +6,7 @@ pipeline {
     stages{
         stage("Clean Workspace") {
             steps {
-                slackSend channel: "#ci-cd", color: "#5B5F68", message: ":warning: Jenkins trabalhando...Build Started: `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n(<${env.BUILD_URL}|Open>)", tokenCredentialId: "jenkins-slack"
+                slackSend channel: "#ci-cd", color: "#5B5F68", message: ":warning: Jenkins trabalhando...Build Started ${desafio} -  `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n(<${env.BUILD_URL}|Open>)", tokenCredentialId: "jenkins-slack"
                 echo "Limpando Workspace"
                 echo "O ${desafio} será executado..."
                 cleanWs() /* clean up our workspace */
@@ -42,11 +42,11 @@ pipeline {
     post {
        success {
             echo "SUCCESS"
-            slackSend channel: "#ci-cd", color: "#157B22", message: ":white_check_mark: Deu Bom!!! Build Deployed Successfully - `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n(<${env.BUILD_URL}|Open>)", tokenCredentialId: "jenkins-slack"
+            slackSend channel: "#ci-cd", color: "#157B22", message: ":white_check_mark: Deu Bom!!! Build Deployed Successfully ${desafio} - `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n(<${env.BUILD_URL}|Open>)", tokenCredentialId: "jenkins-slack"
        }
        failure {
             echo "ERROR"
-            slackSend channel: "#ci-cd", color: "#C81414", message: ":red_circle: Deu ruim... Build Failed  - `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n(<${env.BUILD_URL}|Open>)", tokenCredentialId: "jenkins-slack"
+            slackSend channel: "#ci-cd", color: "#C81414", message: ":red_circle: Deu ruim... Build Failed ${desafio} - `${env.JOB_NAME}` #${env.BUILD_NUMBER}:\n(<${env.BUILD_URL}|Open>)", tokenCredentialId: "jenkins-slack"
        }
        always {
             echo "One way or another, I have finished"
