@@ -135,11 +135,3 @@ module "alb" {
 
   tags = var.sg_tags
 }
-
-resource "aws_internet_gateway" "gw-snake" {
-  vpc_id = module.vpc.vpc_id
-
-  tags = {
-    Name = "snake-internet-gw"
-  }
-}
