@@ -33,7 +33,7 @@ pipeline {
                 dir("desafio-iac-aws/${desafio}"){
                     echo "Executando plano de provisionamento"
                     sh "terraform plan | tee -a terraform_plan.txt"
-                    slackUploadFile channel: "#ci-cd", filePath: "terraform_plan.txt", initialComment: ":page_facing_up: Plano de execução do terraform - ${desafio} - `${env.JOB_NAME}` #${env.BUILD_NUMBER}"
+                    slackUploadFile channel: "#ci-cd", filePath: "terraform_plan.txt", initialComment: ":page_facing_up: Terraform execution plan - ${desafio} - `${env.JOB_NAME}` #${env.BUILD_NUMBER}"
                 }
             }
         }

@@ -22,7 +22,7 @@ resource "aws_security_group" "game_snake_sg" {
     description      = "Game Snake port 80"
     from_port        = 80
     to_port          = 80
-    protocol         = "http"
+    protocol         = "tcp"
     cidr_blocks      = ["10.200.0.0/16"]
   }
   ingress {
@@ -51,7 +51,7 @@ resource "aws_security_group" "alb_snake_sg" {
     description      = "Alb port 80"
     from_port        = 80
     to_port          = 80
-    protocol         = "http"
+    protocol         = "tcp"
     cidr_blocks      = ["10.200.101.0/24"]
   }
   egress {
