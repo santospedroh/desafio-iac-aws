@@ -26,7 +26,7 @@ variable "vpc_private_subnets" {
 variable "vpc_public_subnets" {
   description = "Public subnets for VPC"
   type        = list(string)
-  default     = ["10.200.101.0/24", "10.200.102.0/24"]
+  default     = ["10.200.101.0/24"]
 }
 
 variable "vpc_enable_nat_gateway" {
@@ -50,22 +50,10 @@ variable "sg_snake_name" {
   default     = "sg-snake-name"
 }
 
-variable "sg_instances_ports" {
-    type = list(number)
-    description = "List of ports for Instances Security Group"
-    default = [80, 22]
-}
-
 variable "sg_alb_name" {
   description = "Alb of SG HTTP"
   type        = string
   default     = "sg-alb-name"
-}
-
-variable "sg_alb_ports" {
-    type = list(number)
-    description = "List of ports for ALB Security Group"
-    default = [80]
 }
 
 variable "sg_tags" {

@@ -17,24 +17,29 @@ resource "aws_security_group" "game_snake_sg" {
   name        = "snake-sg"
   description = "SG for Instances Snake Security Group"
   vpc_id      = module.vpc.vpc_id
-  dynamic "ingress" {
-    for_each = var.sg_instances_ports
-    content {
-      from_port   = ingress.value
-      to_port     = ingress.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
+  
+  ingress {
+    description      = "Game Snake port 80"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "http"
+    cidr_blocks      = ["10.200.0.0/16"]
   }
-  dynamic "egress" {
-    for_each = var.sg_instances_ports
-    content {
-      from_port   = egress.value
-      to_port     = egress.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
+  ingress {
+    description      = "Game Snake port 22"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["10.200.0.0/16"]
   }
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
   tags = var.sg_tags
 }
 
@@ -42,24 +47,21 @@ resource "aws_security_group" "alb_snake_sg" {
   name        = "alb-snake-sg"
   description = "SG for Alb Snake Security Group"
   vpc_id      = module.vpc.vpc_id
-  dynamic "ingress" {
-    for_each = var.sg_alb_ports
-    content {
-      from_port   = ingress.value
-      to_port     = ingress.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
+  ingress {
+    description      = "Alb port 80"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "http"
+    cidr_blocks      = ["10.200.101.0/24"]
   }
-  dynamic "egress" {
-    for_each = var.sg_alb_ports
-    content {
-      from_port   = egress.value
-      to_port     = egress.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
+
   tags = var.sg_tags
 }
 
@@ -108,10 +110,22 @@ module "alb" {
 
   target_groups = [
     {
-      name_prefix      = "pref-"
+      name_prefix      = "snake-"
       backend_protocol = "HTTP"
       backend_port     = 80
       target_type      = "instance"
+      deregistration_delay = 10
+      health_check = {
+        enabled             = true
+        interval            = 15
+        path                = "/index.html"
+        port                = "traffic-port"
+        healthy_threshold   = 3
+        unhealthy_threshold = 3
+        timeout             = 6
+        protocol            = "HTTP"
+        matcher             = "200-399"
+      }
       targets = [
         {
           target_id = module.ec2_instance_1.id
