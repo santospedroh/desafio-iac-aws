@@ -105,7 +105,7 @@ module "alb" {
   load_balancer_type = "application"
 
   vpc_id             = module.vpc.vpc_id
-  subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1]]
+  subnets            = [module.vpc.public_subnets[0]]
   security_groups    = [aws_security_group.alb_snake_sg.id]
 
   target_groups = [
