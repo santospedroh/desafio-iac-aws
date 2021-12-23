@@ -93,10 +93,9 @@ resource "aws_security_group" "alb_snake_sg" {
 module "ec2_jump" {
   source  = "terraform-aws-modules/ec2-instance/aws"
 
-  name          = "${var.instance_name}-1"
-
+  name          = "${var.instance_jump_name}"
   ami                    = var.instance_ami
-  instance_type          = var.instance_type
+  instance_type          = var.instance_jump_type
   key_name               = "vockey"
   monitoring             = true
   vpc_security_group_ids = [aws_security_group.jump_snake_sg.id]
@@ -112,7 +111,6 @@ module "ec2_instance_1" {
   source  = "terraform-aws-modules/ec2-instance/aws"
 
   name          = "${var.instance_name}-1"
-
   ami                    = var.instance_ami
   instance_type          = var.instance_type
   key_name               = "vockey"
@@ -128,7 +126,6 @@ module "ec2_instance_2" {
   source  = "terraform-aws-modules/ec2-instance/aws"
 
   name          = "${var.instance_name}-2"
-
   ami                    = var.instance_ami
   instance_type          = var.instance_type
   key_name               = "vockey"

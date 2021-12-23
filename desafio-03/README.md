@@ -7,7 +7,7 @@ A aplicação que será utilizada é o famoso jogo da cobrinha feito em JavaScri
 As instâncias deve conter as seguintes características:
 
 * Shape: t3.medium
-* Name: snake-game-#Numero
+* Name: snake-game
 * Security Group: Porta 80 liberada
 * Tags: Deve conter tags locais, sendo elas:
     - Ambiente : Game

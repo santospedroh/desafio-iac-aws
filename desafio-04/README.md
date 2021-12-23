@@ -2,12 +2,12 @@
 
 Provisionamento de 2 instância EC2 em zonas de disponibilidades diferentes com um Load Balancer direcionando as requests e um Auto Scaling Group para termos alta disponibilidade de forma automatizada via [Terraform](https://www.terraform.io/)
 
-A aplicação que será utilizada será o game [Flappy Bird](https://github.com/Rod1Andrade/Flappy-Bird-JS) créditos ao desenvolvedor: [Rodrigo Andrade](https://github.com/Rod1Andrade)
+A aplicação que será utilizada será o game [Flappy Bird](https://github.com/omariosouto/flappy-bird-devsoutinho) créditos ao desenvolvedor: [Mario Souto](https://github.com/omariosouto)
 
 As instâncias deve conter as seguintes características:
 
 * Shape: t3.medium
-* Name: flappy-bird-game-#Numero
+* Name: flappy-bird-game
 * Security Group: Porta 80 liberada
 * Tags: Deve conter tags locais, sendo elas:
     - Ambiente : Game

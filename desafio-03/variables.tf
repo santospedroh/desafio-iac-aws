@@ -70,9 +70,19 @@ variable "instance_type" {
     default = "t3.medium"
 }
 
+variable "instance_jump_type" {
+    type = string
+    default = "t2.micro"
+}
+
 variable "instance_name" {
     type = string
     default = "snake-game"
+}
+
+variable "instance_jump_name" {
+    type = string
+    default = "jump"
 }
 
 variable "instance_ami" {
@@ -84,7 +94,7 @@ variable "instance_tags" {
   description = "Tags to apply to resources created by Instances module"
   type        = map(string)
   default = {
-    Name = "skane-game-ec2"
+    Name = "snake-game-ec2"
     Terraform = "true"
     Environment = "game"
     Team = "gamer-development"
