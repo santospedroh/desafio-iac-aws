@@ -12,7 +12,7 @@ Exercício da disciplina IaC Terraform do curso DevOps Engineering and Cloud Sol
 
 ## Desafio 1 👨🏽‍💻
 
-[Detalhes do desafio 1](desafio-01/README.md)
+[Detalhes do desafio 1](desafio-01)
 
 * 1 VPC
 * 1 Internet Gateway
@@ -22,7 +22,7 @@ Exercício da disciplina IaC Terraform do curso DevOps Engineering and Cloud Sol
 
 ## Desafio 2 📝
 
-[Detalhes do desafio 2](desafio-02/README.md)
+[Detalhes do desafio 2](desafio-02)
 
 * 1 VPC
 * 1 Internet Gateway
@@ -32,7 +32,7 @@ Exercício da disciplina IaC Terraform do curso DevOps Engineering and Cloud Sol
 
 ## Desafio 3 🐍
 
-[Detalhes do desafio 3](desafio-03/README.md)
+[Detalhes do desafio 3](desafio-03)
 
 * 1 VPC
 * 1 Internet Gateway
@@ -46,7 +46,7 @@ Exercício da disciplina IaC Terraform do curso DevOps Engineering and Cloud Sol
 
 ## Desafio 4 🐦
 
-[Detalhes do desafio 4](desafio-04/README.md)
+[Detalhes do desafio 4](desafio-04)
 
 * 1 VPC
 * 1 Internet Gateway
@@ -61,7 +61,7 @@ Exercício da disciplina IaC Terraform do curso DevOps Engineering and Cloud Sol
 
 ## Desafio 5 🚀
 
-[Detalhes do desafio 5](desafio-05/README.md)
+[Detalhes do desafio 5](desafio-05)
 
 * 1 VPC
 * 1 Internet Gateway
