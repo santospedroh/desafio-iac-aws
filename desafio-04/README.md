@@ -17,6 +17,9 @@ As instâncias deve conter as seguintes características:
 
 Na saída do provisionamento (Output) deve obter as seguintes informações:
 
+* ARN das instâncias
+* IP público das instâncias
+* DNS público das instâncias
 * DNS público do Load Balancer
 
 ![Desafio 04 ](../img/desafio-04.png?raw=true "Desafio 04")

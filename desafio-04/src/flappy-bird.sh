@@ -9,5 +9,5 @@ sudo systemctl start nginx
 cd /tmp
 wget https://github.com/omariosouto/flappy-bird-devsoutinho/archive/refs/heads/master.zip
 sudo unzip master.zip
-sudo mv snake-game-js-master/* /usr/share/nginx/html/
+sudo mv flappy-bird-devsoutinho-master/* /usr/share/nginx/html/
 sudo systemctl restart nginx
