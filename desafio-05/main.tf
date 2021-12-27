@@ -214,7 +214,6 @@ resource "aws_launch_configuration" "as_conf" {
   instance_type = var.instance_type
   security_groups = [aws_security_group.sg-instance-name.id]
   key_name      = "vockey"
-  #user_data     = file("./src/ecoleta.sh")
   user_data = <<EOF
 #!/bin/bash
 ## Install Docker
@@ -223,6 +222,7 @@ sudo yum install mysql -y
 sudo amazon-linux-extras install docker -y
 sudo systemctl enable docker.service
 sudo systemctl start docker.service
+sleep 10
 ## Run App Ecoleta
 sudo docker run --rm -p 80:8000 --name ecoleta -e HOSTDB="${aws_db_instance.default.endpoint}" -e USERDB="db_user" -e PASSDB="Ecoleta123-2021" -e SCHEDB="nlwecoleta" -d santospedroh/ecoleta:latest
 EOF
