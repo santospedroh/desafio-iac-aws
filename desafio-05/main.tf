@@ -93,7 +93,7 @@ resource "aws_security_group" "sg_alb_name" {
 resource "aws_security_group" "sg_database" {
   name        = "sg_database"
   description = "Allows traffic from applications"
-  vpc_id      = lookup(var.vpc_id, var.environment)
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     description      = "app-ecoleta"
@@ -113,51 +113,40 @@ resource "aws_security_group" "sg_database" {
 }
 
 # RDS Database
-module "db" {
-  source  = "terraform-aws-modules/rds/aws"
-  version = "~> 3.0"
+resource "aws_db_subnet_group" "ecoletadb_subnet" {
+  name       = "ecoletadb-subnet"
+  subnet_ids = ["${module.vpc.private_subnets[0]}", "${module.vpc.private_subnets[1]}", "${module.vpc.private_subnets[2]}"]
+  
+  tags = {
+    Name = "My DB subnet group"
+  }
+}
 
-  identifier = "ecoleta-db"
-
-  engine            = "mysql"
-  engine_version    = "5.6.51"
-  instance_class    = "db.t2.large"
-  allocated_storage = 5
-
-  name     = "ecoleta-db"
-  username = "db_user"
-  password = "db_pass"
-  port     = "3306"
-
-  iam_database_authentication_enabled = true
-
+resource "aws_db_instance" "default" {
+  allocated_storage      = 10
+  engine                 = "mysql"
+  engine_version         = "5.6"
+  instance_class         = "db.t3.micro"
+  name                   = "nlwecoleta"
+  username               = "db_user"
+  password               = "Ecoleta123-2021"
+  parameter_group_name   = "default.mysql5.6"
   vpc_security_group_ids = [aws_security_group.sg_database.id]
+  db_subnet_group_name   = aws_db_subnet_group.ecoletadb_subnet.id
+  skip_final_snapshot    = true
 
   tags = {
-    Owner       = "ecoleta-app"
-    Environment = "production"
+    Name = "ecoleta-rds"
   }
-
-  # DB subnet group
-  subnet_ids = [module.vpc.pivrate_subnets[0], module.vpc.pivrate_subnets[1]]
-
-  # DB parameter group
-  family = "mysql5.6"
-
-  # DB option group
-  major_engine_version = "5.6"
-
-  parameters = [
-    {
-      name = "character_set_client"
-      value = "utf8mb4"
-    },
-    {
-      name = "character_set_server"
-      value = "utf8mb4"
-    }
-  ]
 }
+
+locals {
+  vars = {
+    db_address = aws_db_instance.default.endpoint
+  }
+}
+
+#####
 
 # Instancias EC2
 module "ec2_jump" {
@@ -183,7 +172,7 @@ module "alb" {
   load_balancer_type = "application"
 
   vpc_id             = module.vpc.vpc_id
-  subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1]]
+  subnets            = [module.vpc.public_subnets[0], module.vpc.public_subnets[1], module.vpc.public_subnets[2]]
   security_groups    = [aws_security_group.sg_alb_name.id]
 
   target_groups = [
@@ -225,7 +214,18 @@ resource "aws_launch_configuration" "as_conf" {
   instance_type = var.instance_type
   security_groups = [aws_security_group.sg-instance-name.id]
   key_name      = "vockey"
-  user_data     = file("./src/ecoleta.sh")
+  #user_data     = file("./src/ecoleta.sh")
+  user_data = <<EOF
+#!/bin/bash
+## Install Docker
+sudo yum update -y
+sudo yum install mysql -y
+sudo amazon-linux-extras install docker -y
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+## Run App Ecoleta
+sudo docker run --rm -p 80:8000 --name ecoleta -e HOSTDB="${aws_db_instance.default.endpoint}" -e USERDB="db_user" -e PASSDB="Ecoleta123-2021" -e SCHEDB="nlwecoleta" -d santospedroh/ecoleta:latest
+EOF
 
   lifecycle {
     create_before_destroy = true
@@ -237,7 +237,7 @@ resource "aws_launch_configuration" "as_conf" {
 resource "aws_autoscaling_group" "asg-ecoleta" {
   name                 = "asg-ecoleta"
   launch_configuration = aws_launch_configuration.as_conf.name
-  vpc_zone_identifier  = [module.vpc.private_subnets[0], module.vpc.private_subnets[1]]
+  vpc_zone_identifier  = [module.vpc.private_subnets[0], module.vpc.private_subnets[1], module.vpc.private_subnets[2]]
   health_check_grace_period = 90
   health_check_type    = "ELB"
   force_delete         = true
