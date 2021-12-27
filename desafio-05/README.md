@@ -8,9 +8,11 @@ A aplicação que será utilizada é a [Ecoleta](https://github.com/santospedroh
 
 As 3 instâncias da aplicação devem conter as seguintes características:
 
+As instâncias deve conter as seguintes características:
+
 * Shape: t2.micro
-* Name: ecoleta-app-#Numero 
-* Security Group: Porta 80, 433 e 22 liberadas utilizando dynamic blocks
+* Name: ecoleta-app-asg 
+* Security Group: Porta 80
 * Tags: Deve conter tags locais, sendo elas:
     - Ambiente : Production
     - Time : Engenharia
@@ -23,12 +25,13 @@ A arquitetura VPC deve ficar de seguinte forma:
 
 * 1 VPC
 * 1 Internet Gateway
-* 2 NatGateway
-* 4 Subnets (2 Públicas e 2 Privadas)
-* 3 RouteTable
+* 3 NatGateway
+* 6 Subnets (3 Públicas e 3 Privadas)
+* 4 RouteTable
     - 1 RouteTable Pública (Apontando para o InternetGateway)
-    - 2 RouteTable Privadas (Cada uma apontando para um NatGateway)
+    - 3 RouteTable Privadas (Cada uma apontando para um NatGateway)
 * 1 AutoScaling (Nas subnets privadas)
-* 2 Instâncias EC2 (Nas subnets privadas, Security Group com porta 80 liberada)
-* 1 RDS MySQL (Subnet privada, Security Group com porta 3306 liberada)
-* Elastic Load Balancer ou Application Load Balancer (Nas subnets públicas, Security group com porta 80 liberada)
+* 1 Instância EC2 Jump (Na subnet pública, Security Group com porta 22 liberada)
+* 2 Instâncias EC2 (Nas subnets app privadas, Security Group com porta 80 liberada)
+* 1 RDS MySQL (Na Subnet db privada, Security Group com porta 3306 liberada)
+* 1 Application Load Balancer (Nas subnets públicas, Security group com porta 80 liberada)
